@@ -1,4 +1,4 @@
-package com.sarsonasgino.quickinvoicemobile.network
+package com.sarsonasgino.quickinvoicemobile.core.network
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

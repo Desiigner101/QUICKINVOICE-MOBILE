@@ -1,9 +1,10 @@
-package com.sarsonasgino.quickinvoicemobile.ui
+package com.sarsonasgino.quickinvoicemobile.features.register
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.sarsonasgino.quickinvoicemobile.databinding.ActivityRegisterBinding
+import com.sarsonasgino.quickinvoicemobile.features.login.LoginActivity
 
 class RegisterActivity : AppCompatActivity() {
 

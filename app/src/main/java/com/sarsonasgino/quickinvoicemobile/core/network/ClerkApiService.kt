@@ -1,8 +1,8 @@
-package com.sarsonasgino.quickinvoicemobile.network
+package com.sarsonasgino.quickinvoicemobile.core.network
 
-import com.sarsonasgino.quickinvoicemobile.model.AuthResponse
-import com.sarsonasgino.quickinvoicemobile.model.SignInRequest
-import com.sarsonasgino.quickinvoicemobile.model.SignUpRequest
+import com.sarsonasgino.quickinvoicemobile.core.model.AuthResponse
+import com.sarsonasgino.quickinvoicemobile.core.model.SignInRequest
+import com.sarsonasgino.quickinvoicemobile.core.model.SignUpRequest
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST

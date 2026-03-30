@@ -1,4 +1,4 @@
-package com.sarsonasgino.quickinvoicemobile.model
+package com.sarsonasgino.quickinvoicemobile.core.model
 
 data class SignInRequest(
     val identifier: String,

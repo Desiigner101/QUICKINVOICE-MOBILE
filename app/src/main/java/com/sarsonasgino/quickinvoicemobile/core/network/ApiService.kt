@@ -1,7 +1,7 @@
-package com.sarsonasgino.quickinvoicemobile.network
+package com.sarsonasgino.quickinvoicemobile.core.network
 
-import com.sarsonasgino.quickinvoicemobile.model.Invoice
-import com.sarsonasgino.quickinvoicemobile.model.User
+import com.sarsonasgino.quickinvoicemobile.core.model.Invoice
+import com.sarsonasgino.quickinvoicemobile.core.model.User
 import retrofit2.Response
 import retrofit2.http.*
 

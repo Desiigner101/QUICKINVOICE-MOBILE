@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.sarsonasgino.quickinvoicemobile.databinding.ActivityMainBinding
-import com.sarsonasgino.quickinvoicemobile.ui.LoginActivity
+import com.sarsonasgino.quickinvoicemobile.features.login.LoginActivity
 
 class MainActivity : AppCompatActivity() {
 
