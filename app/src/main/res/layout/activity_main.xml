@@ -3,77 +3,120 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#ffffff">
+    android:background="#ffffff"
+    android:fitsSystemWindows="true">
 
-    <!-- NAVBAR (fixed at top) -->
+    <!-- NAVBAR -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="64dp"
         android:orientation="horizontal"
         android:background="#ffffff"
-        android:paddingStart="16dp"
+        android:paddingStart="24dp"
         android:paddingEnd="16dp"
-        android:gravity="center_vertical"
-        android:elevation="4dp">
+        android:gravity="center_vertical">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="QuickInvoice"
+            android:text="⚡ QuickInvoice"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="#0D6EFD"/>
+            android:textColor="#0D6EFD"
+            android:letterSpacing="0.02"/>
 
         <ImageButton
             android:id="@+id/btnHamburger"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
             android:src="@drawable/ic_menu"
             android:backgroundTint="@android:color/transparent"
+            android:tint="#374151"
+            android:padding="10dp"
             android:contentDescription="Menu"/>
 
     </LinearLayout>
 
-    <!-- DRAWER MENU (hidden by default) -->
+    <!-- Navbar shadow line -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#F3F4F6"/>
+
+    <!-- DRAWER MENU -->
     <LinearLayout
         android:id="@+id/drawerMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="#ffffff"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:elevation="8dp"
+        android:elevation="12dp"
         android:visibility="gone">
 
-        <TextView
+        <!-- Home item -->
+        <LinearLayout
             android:id="@+id/menuHome"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="Home"
-            android:textSize="16sp"
-            android:textColor="#343A40"
+            android:layout_height="52dp"
+            android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:paddingStart="8dp"/>
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:background="?attr/selectableItemBackground">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Home"
+                android:textSize="15sp"
+                android:textColor="#111827"
+                android:fontFamily="sans-serif-medium"/>
+
+        </LinearLayout>
+
+        <!-- Divider -->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#E0E0E0"/>
+            android:background="#F3F4F6"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"/>
 
-        <TextView
+        <!-- Login item -->
+        <LinearLayout
             android:id="@+id/menuLogin"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="Login / Sign Up"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="#0D6EFD"
+            android:layout_height="52dp"
+            android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:paddingStart="8dp"/>
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:background="?attr/selectableItemBackground">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Login / Sign Up"
+                android:textSize="15sp"
+                android:textColor="#0D6EFD"
+                android:fontFamily="sans-serif-medium"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="→"
+                android:textSize="16sp"
+                android:textColor="#0D6EFD"/>
+
+        </LinearLayout>
+
+        <!-- Bottom border -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#F3F4F6"/>
 
     </LinearLayout>
 
