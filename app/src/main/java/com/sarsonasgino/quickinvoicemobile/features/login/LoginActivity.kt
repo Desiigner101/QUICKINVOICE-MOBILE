@@ -2,11 +2,13 @@ package com.sarsonasgino.quickinvoicemobile.features.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.sarsonasgino.quickinvoicemobile.R
 import com.sarsonasgino.quickinvoicemobile.core.model.LoginRequest
 import com.sarsonasgino.quickinvoicemobile.core.network.RetrofitClient
 import com.sarsonasgino.quickinvoicemobile.core.utils.SessionManager
@@ -18,6 +20,7 @@ import kotlinx.coroutines.launch
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
+    private var isPasswordVisible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +30,19 @@ class LoginActivity : AppCompatActivity() {
         if (SessionManager.isLoggedIn(this)) {
             goToDashboard()
             return
+        }
+
+        // Toggle password visibility
+        binding.btnTogglePassword.setOnClickListener {
+            isPasswordVisible = !isPasswordVisible
+            if (isPasswordVisible) {
+                binding.etPassword.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                binding.btnTogglePassword.setImageResource(R.drawable.ic_eye_on)
+            } else {
+                binding.etPassword.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                binding.btnTogglePassword.setImageResource(R.drawable.ic_eye_off)
+            }
+            binding.etPassword.setSelection(binding.etPassword.text.length)
         }
 
         binding.btnContinue.setOnClickListener {

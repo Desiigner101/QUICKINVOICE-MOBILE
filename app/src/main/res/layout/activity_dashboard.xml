@@ -17,23 +17,37 @@
         android:gravity="center_vertical"
         android:elevation="4dp">
 
+        <!-- Logo -->
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="⚡ QuickInvoice"
+            android:text="📄 QuickInvoice"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="#0D6EFD"/>
 
-        <ImageButton
+        <!-- Profile Circle -->
+        <TextView
             android:id="@+id/btnProfile"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:text="G"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#ffffff"
+            android:background="@drawable/circle_blue"
+            android:gravity="center"
+            android:layout_marginEnd="12dp"/>
+
+        <!-- Hamburger -->
+        <ImageButton
+            android:id="@+id/btnHamburger"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/ic_menu"
             android:backgroundTint="@android:color/transparent"
-            android:tint="#374151"
-            android:contentDescription="Profile"/>
+            android:contentDescription="Menu"/>
 
     </LinearLayout>
 
@@ -42,6 +56,109 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#F3F4F6"/>
+
+    <!-- DRAWER MENU -->
+    <LinearLayout
+        android:id="@+id/drawerMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#ffffff"
+        android:elevation="8dp"
+        android:visibility="gone">
+
+        <!-- Home -->
+        <LinearLayout
+            android:id="@+id/menuHome"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:background="?attr/selectableItemBackground">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🏠  Home"
+                android:textSize="15sp"
+                android:textColor="#111827"
+                android:fontFamily="sans-serif-medium"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#F3F4F6"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"/>
+
+        <!-- Dashboard -->
+        <LinearLayout
+            android:id="@+id/menuDashboard"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:background="?attr/selectableItemBackground">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📊  Dashboard"
+                android:textSize="15sp"
+                android:textColor="#111827"
+                android:fontFamily="sans-serif-medium"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#F3F4F6"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"/>
+
+        <!-- Generate -->
+        <LinearLayout
+            android:id="@+id/menuGenerate"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:background="?attr/selectableItemBackground">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="✏️  Generate Invoice"
+                android:textSize="15sp"
+                android:textColor="#0D6EFD"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="→"
+                android:textSize="16sp"
+                android:textColor="#0D6EFD"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#F3F4F6"/>
+
+    </LinearLayout>
 
     <!-- Header -->
     <LinearLayout

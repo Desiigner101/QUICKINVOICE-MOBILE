@@ -2,11 +2,13 @@ package com.sarsonasgino.quickinvoicemobile.features.register
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.sarsonasgino.quickinvoicemobile.R
 import com.sarsonasgino.quickinvoicemobile.core.model.RegisterRequest
 import com.sarsonasgino.quickinvoicemobile.core.network.RetrofitClient
 import com.sarsonasgino.quickinvoicemobile.core.utils.SessionManager
@@ -18,11 +20,39 @@ import kotlinx.coroutines.launch
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
+    private var isPasswordVisible = false
+    private var isConfirmPasswordVisible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Toggle password visibility
+        binding.btnTogglePassword.setOnClickListener {
+            isPasswordVisible = !isPasswordVisible
+            if (isPasswordVisible) {
+                binding.etPassword.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                binding.btnTogglePassword.setImageResource(R.drawable.ic_eye_on)
+            } else {
+                binding.etPassword.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                binding.btnTogglePassword.setImageResource(R.drawable.ic_eye_off)
+            }
+            binding.etPassword.setSelection(binding.etPassword.text.length)
+        }
+
+        // Toggle confirm password visibility
+        binding.btnToggleConfirmPassword.setOnClickListener {
+            isConfirmPasswordVisible = !isConfirmPasswordVisible
+            if (isConfirmPasswordVisible) {
+                binding.etConfirmPassword.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                binding.btnToggleConfirmPassword.setImageResource(R.drawable.ic_eye_on)
+            } else {
+                binding.etConfirmPassword.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                binding.btnToggleConfirmPassword.setImageResource(R.drawable.ic_eye_off)
+            }
+            binding.etConfirmPassword.setSelection(binding.etConfirmPassword.text.length)
+        }
 
         binding.btnContinue.setOnClickListener {
             val firstName = binding.etFirstName.text.toString().trim()

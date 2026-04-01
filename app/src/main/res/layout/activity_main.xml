@@ -20,7 +20,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="⚡ QuickInvoice"
+            android:text="📄 QuickInvoice"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="#0D6EFD"
@@ -50,10 +50,10 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="#ffffff"
-        android:elevation="12dp"
+        android:elevation="8dp"
         android:visibility="gone">
 
-        <!-- Home item -->
+        <!-- Home -->
         <LinearLayout
             android:id="@+id/menuHome"
             android:layout_width="match_parent"
@@ -67,14 +67,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Home"
+                android:text="🏠  Home"
                 android:textSize="15sp"
                 android:textColor="#111827"
                 android:fontFamily="sans-serif-medium"/>
 
         </LinearLayout>
 
-        <!-- Divider -->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -82,24 +81,55 @@
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"/>
 
-        <!-- Login item -->
+        <!-- Dashboard (visible when logged in) -->
         <LinearLayout
-            android:id="@+id/menuLogin"
+            android:id="@+id/menuDashboard"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:paddingStart="24dp"
             android:paddingEnd="24dp"
+            android:visibility="gone"
+            android:background="?attr/selectableItemBackground">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📊  Dashboard"
+                android:textSize="15sp"
+                android:textColor="#111827"
+                android:fontFamily="sans-serif-medium"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#F3F4F6"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"/>
+
+        <!-- Generate (visible when logged in) -->
+        <LinearLayout
+            android:id="@+id/menuGenerate"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:visibility="gone"
             android:background="?attr/selectableItemBackground">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Login / Sign Up"
+                android:text="✏️  Generate Invoice"
                 android:textSize="15sp"
                 android:textColor="#0D6EFD"
+                android:textStyle="bold"
                 android:fontFamily="sans-serif-medium"/>
 
             <TextView
@@ -111,7 +141,35 @@
 
         </LinearLayout>
 
-        <!-- Bottom border -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#F3F4F6"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"/>
+
+        <!-- Login (visible when logged out) -->
+        <LinearLayout
+            android:id="@+id/menuLogin"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:background="?attr/selectableItemBackground">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🔐  Login / Sign Up"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#0D6EFD"
+                android:fontFamily="sans-serif-medium"/>
+
+        </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"

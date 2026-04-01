@@ -197,18 +197,35 @@
                     android:textColor="#374151"
                     android:layout_marginBottom="6dp"/>
 
-                <EditText
-                    android:id="@+id/etPassword"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="52dp"
-                    android:hint="Enter your password"
-                    android:inputType="textPassword"
-                    android:background="@drawable/input_background"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:textSize="14sp"
-                    android:textColor="#111827"
-                    android:layout_marginBottom="24dp"/>
+                    android:layout_marginBottom="24dp">
+
+                    <EditText
+                        android:id="@+id/etPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:hint="Enter your password"
+                        android:inputType="textPassword"
+                        android:background="@drawable/input_background"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="52dp"
+                        android:textSize="14sp"
+                        android:textColor="#111827"/>
+
+                    <ImageButton
+                        android:id="@+id/btnTogglePassword"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_marginEnd="8dp"
+                        android:src="@drawable/ic_eye_off"
+                        android:backgroundTint="@android:color/transparent"
+                        android:tint="#9CA3AF"
+                        android:contentDescription="Toggle password"/>
+
+                </FrameLayout>
 
                 <!-- Progress Bar -->
                 <ProgressBar
