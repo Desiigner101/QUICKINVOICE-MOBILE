@@ -3,16 +3,143 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F8F9FA"
-    android:gravity="center"
+    android:background="#F9FAFB"
     android:fitsSystemWindows="true">
 
-    <TextView
+    <!-- NAVBAR -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:orientation="horizontal"
+        android:background="#ffffff"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:gravity="center_vertical"
+        android:elevation="4dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="⚡ QuickInvoice"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#0D6EFD"/>
+
+        <ImageButton
+            android:id="@+id/btnProfile"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_menu"
+            android:backgroundTint="@android:color/transparent"
+            android:tint="#374151"
+            android:contentDescription="Profile"/>
+
+    </LinearLayout>
+
+    <!-- Navbar border -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#F3F4F6"/>
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="20dp"
+        android:gravity="center_vertical">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvWelcome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Welcome back 👋"
+                android:textSize="14sp"
+                android:textColor="#6B7280"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Your Invoices"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="#111827"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnCreateInvoice"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="+ New"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:textColor="#ffffff"
+            android:backgroundTint="#0D6EFD"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"/>
+
+    </LinearLayout>
+
+    <!-- Loading -->
+    <ProgressBar
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="🎉 Welcome to Dashboard!"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="#0D6EFD"/>
+        android:layout_gravity="center"
+        android:visibility="gone"/>
+
+    <!-- Empty State -->
+    <LinearLayout
+        android:id="@+id/layoutEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="48dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📄"
+            android:textSize="64sp"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No invoices yet"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#111827"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create your first invoice by tapping + New"
+            android:textSize="14sp"
+            android:textColor="#9CA3AF"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+    <!-- Invoice Grid -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="8dp"
+        android:clipToPadding="false"/>
 
 </LinearLayout>
