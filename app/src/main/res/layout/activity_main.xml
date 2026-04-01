@@ -32,7 +32,6 @@
             android:layout_height="44dp"
             android:src="@drawable/ic_menu"
             android:backgroundTint="@android:color/transparent"
-            android:tint="#374151"
             android:padding="10dp"
             android:contentDescription="Menu"/>
 

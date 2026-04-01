@@ -1,8 +1,10 @@
 package com.sarsonasgino.quickinvoicemobile.core.model
 
+// Clerk models (keep for future use)
 data class SignInRequest(
     val identifier: String,
-    val password: String
+    val password: String,
+    val strategy: String = "password"
 )
 
 data class SignUpRequest(
@@ -26,4 +28,26 @@ data class SessionData(
 
 data class TokenData(
     val jwt: String?
+)
+
+// Mobile Auth models
+data class LoginRequest(
+    val email: String,
+    val password: String
+)
+
+data class RegisterRequest(
+    val email: String,
+    val password: String,
+    val firstName: String,
+    val lastName: String
+)
+
+data class MobileAuthResponse(
+    val token: String?,
+    val userId: String?,
+    val email: String?,
+    val firstName: String?,
+    val lastName: String?,
+    val message: String?
 )
