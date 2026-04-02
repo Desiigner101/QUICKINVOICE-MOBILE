@@ -8,12 +8,14 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.gson.Gson
 import com.sarsonasgino.quickinvoicemobile.MainActivity
 import com.sarsonasgino.quickinvoicemobile.core.network.RetrofitClient
 import com.sarsonasgino.quickinvoicemobile.core.utils.SessionManager
 import com.sarsonasgino.quickinvoicemobile.databinding.ActivityDashboardBinding
 import com.sarsonasgino.quickinvoicemobile.core.model.Invoice
 import com.sarsonasgino.quickinvoicemobile.features.invoice.CreateInvoiceActivity
+import com.sarsonasgino.quickinvoicemobile.features.invoice.InvoiceDetailActivity
 import kotlinx.coroutines.launch
 
 class DashboardActivity : AppCompatActivity() {
@@ -38,6 +40,11 @@ class DashboardActivity : AppCompatActivity() {
         binding.btnCreateInvoice.setOnClickListener {
             startActivity(Intent(this, CreateInvoiceActivity::class.java))
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loadInvoices()
     }
 
     private fun setupNavbar() {
@@ -105,7 +112,9 @@ class DashboardActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         adapter = InvoiceAdapter(mutableListOf()) { invoice ->
-            Toast.makeText(this, "Clicked: ${invoice.title}", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, InvoiceDetailActivity::class.java)
+            intent.putExtra("invoice_json", Gson().toJson(invoice))
+            startActivity(intent)
         }
         binding.recyclerView.layoutManager = GridLayoutManager(this, 2)
         binding.recyclerView.adapter = adapter

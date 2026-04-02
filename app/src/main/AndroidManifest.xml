@@ -29,6 +29,8 @@
         <activity android:name=".features.register.RegisterActivity"/>
         <activity android:name=".features.dashboard.DashboardActivity"/>
         <activity android:name=".features.invoice.CreateInvoiceActivity"/>
+        <activity android:name=".features.invoice.InvoiceDetailActivity"/>
+        <activity android:name=".features.invoice.InvoicePreviewActivity"/>
     </application>
 
 </manifest>
