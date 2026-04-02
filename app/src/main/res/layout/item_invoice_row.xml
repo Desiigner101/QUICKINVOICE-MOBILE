@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#F9FAFB"
+    android:padding="12dp"
+    android:layout_marginBottom="8dp">
+
+    <!-- Row 1: Name, Qty, Amount, Total -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="8dp">
+
+        <EditText
+            android:id="@+id/etItemName"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="3"
+            android:hint="Item Name"
+            android:background="@drawable/input_background"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:textSize="12sp"
+            android:layout_marginEnd="4dp"/>
+
+        <EditText
+            android:id="@+id/etItemQty"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:hint="Qty"
+            android:inputType="number"
+            android:background="@drawable/input_background"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:textSize="12sp"
+            android:layout_marginEnd="4dp"/>
+
+        <EditText
+            android:id="@+id/etItemAmount"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="2"
+            android:hint="Amount"
+            android:inputType="numberDecimal"
+            android:background="@drawable/input_background"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:textSize="12sp"
+            android:layout_marginEnd="4dp"/>
+
+        <TextView
+            android:id="@+id/tvItemTotal"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="2"
+            android:text="₱0.00"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="#0D6EFD"
+            android:gravity="center"
+            android:background="#EFF6FF"/>
+
+    </LinearLayout>
+
+    <!-- Row 2: Description + Delete -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/etItemDescription"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:hint="Description (optional)"
+            android:background="@drawable/input_background"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:textSize="12sp"
+            android:layout_marginEnd="8dp"/>
+
+        <ImageButton
+            android:id="@+id/btnDeleteItem"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:src="@drawable/ic_trash"
+            android:backgroundTint="#FEE2E2"
+            android:tint="#EF4444"
+            android:contentDescription="Delete item"/>
+
+    </LinearLayout>
+
+</LinearLayout>

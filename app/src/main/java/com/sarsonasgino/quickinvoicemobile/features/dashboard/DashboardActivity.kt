@@ -13,6 +13,7 @@ import com.sarsonasgino.quickinvoicemobile.core.network.RetrofitClient
 import com.sarsonasgino.quickinvoicemobile.core.utils.SessionManager
 import com.sarsonasgino.quickinvoicemobile.databinding.ActivityDashboardBinding
 import com.sarsonasgino.quickinvoicemobile.core.model.Invoice
+import com.sarsonasgino.quickinvoicemobile.features.invoice.CreateInvoiceActivity
 import kotlinx.coroutines.launch
 
 class DashboardActivity : AppCompatActivity() {
@@ -35,7 +36,7 @@ class DashboardActivity : AppCompatActivity() {
         setupNavbar()
 
         binding.btnCreateInvoice.setOnClickListener {
-            Toast.makeText(this, "Generate Invoice coming soon!", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, CreateInvoiceActivity::class.java))
         }
     }
 
@@ -74,7 +75,7 @@ class DashboardActivity : AppCompatActivity() {
         binding.menuGenerate.setOnClickListener {
             binding.drawerMenu.visibility = View.GONE
             isMenuOpen = false
-            Toast.makeText(this, "Generate Invoice coming soon!", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, CreateInvoiceActivity::class.java))
         }
     }
 

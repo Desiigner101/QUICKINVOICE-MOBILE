@@ -28,6 +28,7 @@
         <activity android:name=".features.login.LoginActivity"/>
         <activity android:name=".features.register.RegisterActivity"/>
         <activity android:name=".features.dashboard.DashboardActivity"/>
+        <activity android:name=".features.invoice.CreateInvoiceActivity"/>
     </application>
 
 </manifest>
