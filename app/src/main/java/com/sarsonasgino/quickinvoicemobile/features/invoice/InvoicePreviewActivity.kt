@@ -405,28 +405,55 @@ class InvoicePreviewActivity : AppCompatActivity() {
         val updatedInvoice = invoice.copy(template = selectedTemplate)
         binding.btnSave.isEnabled = false
 
+        // Show loading dialog
+        val loadingDialog = AlertDialog.Builder(this)
+            .setMessage("Saving invoice...")
+            .setCancelable(false)
+            .create()
+        loadingDialog.show()
+
         lifecycleScope.launch {
             try {
                 val token = SessionManager.getToken(this@InvoicePreviewActivity)
                 if (token != null) RetrofitClient.setToken(token)
 
-                val response = RetrofitClient.api.saveInvoice(updatedInvoice)
+                val invoiceId = updatedInvoice.id
+                android.util.Log.d("PREVIEW", "Invoice ID: $invoiceId")
+                android.util.Log.d("PREVIEW", "Template: $selectedTemplate")
+
+                val response = if (!invoiceId.isNullOrEmpty()) {
+                    android.util.Log.d("PREVIEW", "Updating existing invoice...")
+                    RetrofitClient.api.updateInvoice(invoiceId, updatedInvoice)
+                } else {
+                    android.util.Log.d("PREVIEW", "Creating new invoice...")
+                    RetrofitClient.api.saveInvoice(updatedInvoice)
+                }
+
+                loadingDialog.dismiss()
+
                 if (response.isSuccessful) {
                     Toast.makeText(
                         this@InvoicePreviewActivity,
-                        "Invoice saved! ✅", Toast.LENGTH_SHORT
+                        "Invoice saved! ✅",
+                        Toast.LENGTH_SHORT
                     ).show()
                     finish()
                 } else {
+                    val error = response.errorBody()?.string()
+                    android.util.Log.e("PREVIEW", "Save error: $error")
                     Toast.makeText(
                         this@InvoicePreviewActivity,
-                        "Failed to save", Toast.LENGTH_SHORT
+                        "Failed to save",
+                        Toast.LENGTH_SHORT
                     ).show()
                 }
             } catch (e: Exception) {
+                loadingDialog.dismiss()
+                android.util.Log.e("PREVIEW", "Exception: ${e.message}")
                 Toast.makeText(
                     this@InvoicePreviewActivity,
-                    "Network error: ${e.message}", Toast.LENGTH_SHORT
+                    "Network error: ${e.message}",
+                    Toast.LENGTH_SHORT
                 ).show()
             } finally {
                 binding.btnSave.isEnabled = true

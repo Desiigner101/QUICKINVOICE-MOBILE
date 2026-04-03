@@ -30,4 +30,7 @@ interface ApiService {
 
     @DELETE("api/invoices/{id}")
     suspend fun deleteInvoice(@Path("id") id: String): Response<Void>
+
+    @PUT("api/invoices/{id}")
+    suspend fun updateInvoice(@Path("id") id: String, @Body invoice: Invoice): Response<Invoice>
 }
