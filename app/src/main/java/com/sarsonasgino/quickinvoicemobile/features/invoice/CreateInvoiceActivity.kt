@@ -5,6 +5,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
@@ -32,6 +33,9 @@ class CreateInvoiceActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateInvoiceBinding
     private val itemViews = mutableListOf<View>()
 
+    private var selectedTemplate = "template1"
+    private val templateButtons = mutableListOf<Button>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCreateInvoiceBinding.inflate(layoutInflater)
@@ -41,6 +45,7 @@ class CreateInvoiceActivity : AppCompatActivity() {
         setupInvoiceDate()
         addItemRow()
         setupListeners()
+        setupTemplateSelector()
     }
 
     private fun setupInvoiceNumber() {
@@ -140,6 +145,43 @@ class CreateInvoiceActivity : AppCompatActivity() {
         binding.tvGrandTotal.text = "₱${String.format("%.2f", grandTotal)}"
     }
 
+    private fun setupTemplateSelector() {
+        templateButtons.addAll(listOf(
+            binding.btnTemplate1,
+            binding.btnTemplate2,
+            binding.btnTemplate3,
+            binding.btnTemplate4,
+            binding.btnTemplate5
+        ))
+
+        binding.btnTemplate1.setOnClickListener { selectTemplate("template1", binding.btnTemplate1) }
+        binding.btnTemplate2.setOnClickListener { selectTemplate("template2", binding.btnTemplate2) }
+        binding.btnTemplate3.setOnClickListener { selectTemplate("template3", binding.btnTemplate3) }
+        binding.btnTemplate4.setOnClickListener { selectTemplate("template4", binding.btnTemplate4) }
+        binding.btnTemplate5.setOnClickListener { selectTemplate("template5", binding.btnTemplate5) }
+    }
+
+    private fun selectTemplate(template: String, button: Button) {
+        selectedTemplate = template
+        templateButtons.forEach { btn ->
+            btn.backgroundTintList = android.content.res.ColorStateList.valueOf(
+                android.graphics.Color.parseColor("#E5E7EB")
+            )
+            btn.setTextColor(android.graphics.Color.parseColor("#374151"))
+        }
+        val colors = mapOf(
+            "template1" to "#ea580c",
+            "template2" to "#198754",
+            "template3" to "#8a3ff3",
+            "template4" to "#00a9e0",
+            "template5" to "#1f2937"
+        )
+        button.backgroundTintList = android.content.res.ColorStateList.valueOf(
+            android.graphics.Color.parseColor(colors[template] ?: "#0D6EFD")
+        )
+        button.setTextColor(android.graphics.Color.WHITE)
+    }
+
     private fun saveInvoice() {
         val title = binding.etTitle.text.toString().trim()
         if (title.isEmpty()) {
@@ -185,7 +227,7 @@ class CreateInvoiceActivity : AppCompatActivity() {
             items = items,
             tax = taxRate,
             notes = binding.etNotes.text.toString().trim(),
-            template = "template1"
+            template = selectedTemplate
         )
 
         binding.btnSave.isEnabled = false
