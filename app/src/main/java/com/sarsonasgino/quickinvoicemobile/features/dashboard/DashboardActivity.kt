@@ -13,7 +13,6 @@ import com.sarsonasgino.quickinvoicemobile.MainActivity
 import com.sarsonasgino.quickinvoicemobile.core.network.RetrofitClient
 import com.sarsonasgino.quickinvoicemobile.core.utils.SessionManager
 import com.sarsonasgino.quickinvoicemobile.databinding.ActivityDashboardBinding
-import com.sarsonasgino.quickinvoicemobile.core.model.Invoice
 import com.sarsonasgino.quickinvoicemobile.features.invoice.CreateInvoiceActivity
 import com.sarsonasgino.quickinvoicemobile.features.invoice.InvoiceDetailActivity
 import kotlinx.coroutines.launch
@@ -23,14 +22,13 @@ class DashboardActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDashboardBinding
     private lateinit var adapter: InvoiceAdapter
     private var isMenuOpen = false
+    private var shouldRefresh = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Set welcome name
-        val clerkId = SessionManager.getClerkId(this)
         binding.tvWelcome.text = "Welcome back 👋"
 
         setupRecyclerView()
@@ -38,17 +36,24 @@ class DashboardActivity : AppCompatActivity() {
         setupNavbar()
 
         binding.btnCreateInvoice.setOnClickListener {
-            startActivity(Intent(this, CreateInvoiceActivity::class.java))
+            startActivityForResult(Intent(this, CreateInvoiceActivity::class.java), 100)
         }
     }
 
     override fun onResume() {
         super.onResume()
-        loadInvoices()
+        if (shouldRefresh) {
+            loadInvoices()
+            shouldRefresh = false
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        shouldRefresh = true
     }
 
     private fun setupNavbar() {
-        // Hamburger toggle
         binding.btnHamburger.setOnClickListener {
             if (isMenuOpen) {
                 binding.drawerMenu.visibility = View.GONE
@@ -59,12 +64,15 @@ class DashboardActivity : AppCompatActivity() {
             }
         }
 
-        // Profile button
+        binding.btnRefresh.setOnClickListener {
+            loadInvoices()
+            Toast.makeText(this, "Refreshing...", Toast.LENGTH_SHORT).show()
+        }
+
         binding.btnProfile.setOnClickListener {
             showProfileMenu(it)
         }
 
-        // Menu items
         binding.menuHome.setOnClickListener {
             binding.drawerMenu.visibility = View.GONE
             isMenuOpen = false
@@ -76,13 +84,12 @@ class DashboardActivity : AppCompatActivity() {
         binding.menuDashboard.setOnClickListener {
             binding.drawerMenu.visibility = View.GONE
             isMenuOpen = false
-            // Already on dashboard
         }
 
         binding.menuGenerate.setOnClickListener {
             binding.drawerMenu.visibility = View.GONE
             isMenuOpen = false
-            startActivity(Intent(this, CreateInvoiceActivity::class.java))
+            startActivityForResult(Intent(this, CreateInvoiceActivity::class.java), 100)
         }
     }
 
@@ -114,7 +121,7 @@ class DashboardActivity : AppCompatActivity() {
         adapter = InvoiceAdapter(mutableListOf()) { invoice ->
             val intent = Intent(this, InvoiceDetailActivity::class.java)
             intent.putExtra("invoice_json", Gson().toJson(invoice))
-            startActivity(intent)
+            startActivityForResult(intent, 101)
         }
         binding.recyclerView.layoutManager = GridLayoutManager(this, 2)
         binding.recyclerView.adapter = adapter
@@ -125,9 +132,7 @@ class DashboardActivity : AppCompatActivity() {
         binding.layoutEmpty.visibility = View.GONE
 
         val token = SessionManager.getToken(this)
-        if (token != null) {
-            RetrofitClient.setToken(token)
-        }
+        if (token != null) RetrofitClient.setToken(token)
 
         lifecycleScope.launch {
             try {
