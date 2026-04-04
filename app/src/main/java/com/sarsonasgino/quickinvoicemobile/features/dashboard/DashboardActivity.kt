@@ -9,12 +9,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.gson.Gson
-import com.sarsonasgino.quickinvoicemobile.MainActivity
 import com.sarsonasgino.quickinvoicemobile.core.network.RetrofitClient
 import com.sarsonasgino.quickinvoicemobile.core.utils.SessionManager
 import com.sarsonasgino.quickinvoicemobile.databinding.ActivityDashboardBinding
 import com.sarsonasgino.quickinvoicemobile.features.invoice.CreateInvoiceActivity
 import com.sarsonasgino.quickinvoicemobile.features.invoice.InvoiceDetailActivity
+import com.sarsonasgino.quickinvoicemobile.MainActivity
 import kotlinx.coroutines.launch
 
 class DashboardActivity : AppCompatActivity() {
@@ -38,6 +38,11 @@ class DashboardActivity : AppCompatActivity() {
         binding.btnCreateInvoice.setOnClickListener {
             startActivityForResult(Intent(this, CreateInvoiceActivity::class.java), 100)
         }
+
+        binding.tvLogo.setOnClickListener {
+            binding.recyclerView.smoothScrollToPosition(0)
+        }
+
     }
 
     override fun onResume() {
@@ -63,6 +68,7 @@ class DashboardActivity : AppCompatActivity() {
                 isMenuOpen = true
             }
         }
+
 
         binding.btnRefresh.setOnClickListener {
             loadInvoices()
