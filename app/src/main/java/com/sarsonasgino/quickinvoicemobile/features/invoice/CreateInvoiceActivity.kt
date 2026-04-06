@@ -11,28 +11,19 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import com.sarsonasgino.quickinvoicemobile.R
-import com.sarsonasgino.quickinvoicemobile.core.model.Billing
-import com.sarsonasgino.quickinvoicemobile.core.model.Company
-import com.sarsonasgino.quickinvoicemobile.core.model.Invoice
-import com.sarsonasgino.quickinvoicemobile.core.model.InvoiceDetails
-import com.sarsonasgino.quickinvoicemobile.core.model.Item
-import com.sarsonasgino.quickinvoicemobile.core.model.Shipping
-import com.sarsonasgino.quickinvoicemobile.core.network.RetrofitClient
+import com.sarsonasgino.quickinvoicemobile.core.model.*
 import com.sarsonasgino.quickinvoicemobile.core.utils.SessionManager
 import com.sarsonasgino.quickinvoicemobile.databinding.ActivityCreateInvoiceBinding
-import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import java.util.UUID
 
-class CreateInvoiceActivity : AppCompatActivity() {
+class CreateInvoiceActivity : AppCompatActivity(), CreateInvoiceContract.View {
 
     private lateinit var binding: ActivityCreateInvoiceBinding
+    private lateinit var presenter: CreateInvoicePresenter
     private val itemViews = mutableListOf<View>()
-
     private var selectedTemplate = "template1"
     private val templateButtons = mutableListOf<Button>()
 
@@ -41,12 +32,40 @@ class CreateInvoiceActivity : AppCompatActivity() {
         binding = ActivityCreateInvoiceBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        presenter = CreateInvoicePresenter(this, this)
+
         setupInvoiceNumber()
         setupInvoiceDate()
         addItemRow()
         setupListeners()
         setupTemplateSelector()
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.onDestroy()
+    }
+
+    // --- CreateInvoiceContract.View implementations ---
+
+    override fun showSaveSuccess() {
+        Toast.makeText(this, "Invoice saved successfully! ✅", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showSaveError(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun setSaveButtonsEnabled(enabled: Boolean) {
+        binding.btnSave.isEnabled = enabled
+        binding.btnSaveBottom.isEnabled = enabled
+    }
+
+    override fun closeScreen() {
+        finish()
+    }
+
+    // --- Private UI helpers ---
 
     private fun setupInvoiceNumber() {
         val invoiceNumber = "INV-${(100000 + Math.random() * 900000).toInt()}"
@@ -59,17 +78,11 @@ class CreateInvoiceActivity : AppCompatActivity() {
     }
 
     private fun setupListeners() {
-        // Back button
         binding.btnBack.setOnClickListener { finish() }
-
-        // Save buttons
-        binding.btnSave.setOnClickListener { saveInvoice() }
-        binding.btnSaveBottom.setOnClickListener { saveInvoice() }
-
-        // Add item button
+        binding.btnSave.setOnClickListener { submitInvoice() }
+        binding.btnSaveBottom.setOnClickListener { submitInvoice() }
         binding.btnAddItem.setOnClickListener { addItemRow() }
 
-        // Same as billing checkbox
         binding.cbSameAsBilling.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 binding.etShippingName.setText(binding.etBillingName.text)
@@ -78,7 +91,6 @@ class CreateInvoiceActivity : AppCompatActivity() {
             }
         }
 
-        // Tax rate change
         binding.etTaxRate.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) { updateTotals() }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -90,13 +102,11 @@ class CreateInvoiceActivity : AppCompatActivity() {
         val itemView = LayoutInflater.from(this)
             .inflate(R.layout.item_invoice_row, binding.itemsContainer, false)
 
-        val etName = itemView.findViewById<EditText>(R.id.etItemName)
         val etQty = itemView.findViewById<EditText>(R.id.etItemQty)
         val etAmount = itemView.findViewById<EditText>(R.id.etItemAmount)
         val tvTotal = itemView.findViewById<TextView>(R.id.tvItemTotal)
         val btnDelete = itemView.findViewById<ImageButton>(R.id.btnDeleteItem)
 
-        // Calculate total when qty or amount changes
         val watcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 val qty = etQty.text.toString().toDoubleOrNull() ?: 0.0
@@ -111,7 +121,6 @@ class CreateInvoiceActivity : AppCompatActivity() {
         etQty.addTextChangedListener(watcher)
         etAmount.addTextChangedListener(watcher)
 
-        // Delete item row
         btnDelete.setOnClickListener {
             if (itemViews.size > 1) {
                 binding.itemsContainer.removeView(itemView)
@@ -129,13 +138,10 @@ class CreateInvoiceActivity : AppCompatActivity() {
     private fun updateTotals() {
         var subtotal = 0.0
         for (itemView in itemViews) {
-            val qty = itemView.findViewById<EditText>(R.id.etItemQty)
-                .text.toString().toDoubleOrNull() ?: 0.0
-            val amount = itemView.findViewById<EditText>(R.id.etItemAmount)
-                .text.toString().toDoubleOrNull() ?: 0.0
+            val qty = itemView.findViewById<EditText>(R.id.etItemQty).text.toString().toDoubleOrNull() ?: 0.0
+            val amount = itemView.findViewById<EditText>(R.id.etItemAmount).text.toString().toDoubleOrNull() ?: 0.0
             subtotal += qty * amount
         }
-
         val taxRate = binding.etTaxRate.text.toString().toDoubleOrNull() ?: 0.0
         val taxAmount = subtotal * taxRate / 100
         val grandTotal = subtotal + taxAmount
@@ -147,13 +153,9 @@ class CreateInvoiceActivity : AppCompatActivity() {
 
     private fun setupTemplateSelector() {
         templateButtons.addAll(listOf(
-            binding.btnTemplate1,
-            binding.btnTemplate2,
-            binding.btnTemplate3,
-            binding.btnTemplate4,
-            binding.btnTemplate5
+            binding.btnTemplate1, binding.btnTemplate2, binding.btnTemplate3,
+            binding.btnTemplate4, binding.btnTemplate5
         ))
-
         binding.btnTemplate1.setOnClickListener { selectTemplate("template1", binding.btnTemplate1) }
         binding.btnTemplate2.setOnClickListener { selectTemplate("template2", binding.btnTemplate2) }
         binding.btnTemplate3.setOnClickListener { selectTemplate("template3", binding.btnTemplate3) }
@@ -163,26 +165,21 @@ class CreateInvoiceActivity : AppCompatActivity() {
 
     private fun selectTemplate(template: String, button: Button) {
         selectedTemplate = template
+        val colors = mapOf(
+            "template1" to "#ea580c", "template2" to "#198754",
+            "template3" to "#8a3ff3", "template4" to "#00a9e0", "template5" to "#1f2937"
+        )
         templateButtons.forEach { btn ->
             btn.backgroundTintList = android.content.res.ColorStateList.valueOf(
-                android.graphics.Color.parseColor("#E5E7EB")
-            )
+                android.graphics.Color.parseColor("#E5E7EB"))
             btn.setTextColor(android.graphics.Color.parseColor("#374151"))
         }
-        val colors = mapOf(
-            "template1" to "#ea580c",
-            "template2" to "#198754",
-            "template3" to "#8a3ff3",
-            "template4" to "#00a9e0",
-            "template5" to "#1f2937"
-        )
         button.backgroundTintList = android.content.res.ColorStateList.valueOf(
-            android.graphics.Color.parseColor(colors[template] ?: "#0D6EFD")
-        )
+            android.graphics.Color.parseColor(colors[template] ?: "#0D6EFD"))
         button.setTextColor(android.graphics.Color.WHITE)
     }
 
-    private fun saveInvoice() {
+    private fun submitInvoice() {
         val title = binding.etTitle.text.toString().trim()
         if (title.isEmpty()) {
             Toast.makeText(this, "Please enter an invoice title", Toast.LENGTH_SHORT).show()
@@ -199,7 +196,6 @@ class CreateInvoiceActivity : AppCompatActivity() {
         }
 
         val clerkId = SessionManager.getClerkId(this) ?: return
-        val taxRate = binding.etTaxRate.text.toString().toDoubleOrNull() ?: 0.0
 
         val invoice = Invoice(
             clerkId = clerkId,
@@ -225,45 +221,11 @@ class CreateInvoiceActivity : AppCompatActivity() {
                 dueDate = binding.etInvoiceDueDate.text.toString().trim()
             ),
             items = items,
-            tax = taxRate,
+            tax = binding.etTaxRate.text.toString().toDoubleOrNull() ?: 0.0,
             notes = binding.etNotes.text.toString().trim(),
             template = selectedTemplate
         )
 
-        binding.btnSave.isEnabled = false
-        binding.btnSaveBottom.isEnabled = false
-
-        lifecycleScope.launch {
-            try {
-                val token = SessionManager.getToken(this@CreateInvoiceActivity)
-                if (token != null) RetrofitClient.setToken(token)
-
-                val response = RetrofitClient.api.saveInvoice(invoice)
-
-                if (response.isSuccessful) {
-                    Toast.makeText(
-                        this@CreateInvoiceActivity,
-                        "Invoice saved successfully! ✅",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    finish()
-                } else {
-                    Toast.makeText(
-                        this@CreateInvoiceActivity,
-                        "Failed to save invoice",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            } catch (e: Exception) {
-                Toast.makeText(
-                    this@CreateInvoiceActivity,
-                    "Network error: ${e.message}",
-                    Toast.LENGTH_SHORT
-                ).show()
-            } finally {
-                binding.btnSave.isEnabled = true
-                binding.btnSaveBottom.isEnabled = true
-            }
-        }
+        presenter.saveInvoice(invoice)
     }
 }
