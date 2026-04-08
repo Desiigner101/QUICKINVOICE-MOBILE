@@ -5,6 +5,7 @@ import com.sarsonasgino.quickinvoicemobile.core.model.User
 import com.sarsonasgino.quickinvoicemobile.core.model.LoginRequest
 import com.sarsonasgino.quickinvoicemobile.core.model.MobileAuthResponse
 import com.sarsonasgino.quickinvoicemobile.core.model.RegisterRequest
+import com.sarsonasgino.quickinvoicemobile.core.model.UpdateProfileRequest
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -33,4 +34,10 @@ interface ApiService {
 
     @PUT("api/invoices/{id}")
     suspend fun updateInvoice(@Path("id") id: String, @Body invoice: Invoice): Response<Invoice>
+
+    @PUT("api/auth/profile")
+    suspend fun updateProfile(@Body request: UpdateProfileRequest): Response<MobileAuthResponse>
+
+    @DELETE("api/auth/account")
+    suspend fun deleteAccount(): Response<Void>
 }

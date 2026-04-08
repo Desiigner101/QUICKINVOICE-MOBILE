@@ -33,7 +33,7 @@
             android:id="@+id/btnProfile"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:text="U"
+            android:text="G"
             android:textSize="14sp"
             android:textStyle="bold"
             android:textColor="#ffffff"

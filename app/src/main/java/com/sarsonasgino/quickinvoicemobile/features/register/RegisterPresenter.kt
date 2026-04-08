@@ -44,6 +44,12 @@ class RegisterPresenter(
                     val userId = body?.userId
 
                     if (token != null && userId != null) {
+                        SessionManager.saveUserInfo(
+                            context,
+                            body.firstName ?: "",
+                            body.lastName ?: "",
+                            body.email ?: ""
+                        )
                         SessionManager.saveToken(context, token)
                         SessionManager.saveClerkId(context, userId)
                         RetrofitClient.setToken(token)

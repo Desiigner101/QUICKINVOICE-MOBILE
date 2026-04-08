@@ -93,7 +93,10 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         popup.menu.add(0, 2, 0, "🚪 Logout")
         popup.setOnMenuItemClickListener { item ->
             when (item.itemId) {
-                1 -> { showToast("Profile coming soon!"); true }
+                1 -> {
+                    startActivity(Intent(this, com.sarsonasgino.quickinvoicemobile.features.profile.ProfileActivity::class.java))
+                    true
+                }
                 2 -> { presenter.onLogoutConfirmed(); true }
                 else -> false
             }

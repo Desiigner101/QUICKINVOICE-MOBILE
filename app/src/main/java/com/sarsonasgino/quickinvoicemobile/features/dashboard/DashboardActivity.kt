@@ -161,7 +161,10 @@ class DashboardActivity : AppCompatActivity(), DashboardContract.View {
         popup.menu.add(0, 2, 0, "🚪 Logout")
         popup.setOnMenuItemClickListener { item ->
             when (item.itemId) {
-                1 -> { Toast.makeText(this, "Profile coming soon!", Toast.LENGTH_SHORT).show(); true }
+                1 -> {
+                    startActivity(Intent(this, com.sarsonasgino.quickinvoicemobile.features.profile.ProfileActivity::class.java))
+                    true
+                }
                 2 -> { presenter.onLogoutClicked(); true }
                 else -> false
             }

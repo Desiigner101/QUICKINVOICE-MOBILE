@@ -14,6 +14,13 @@ data class SignUpRequest(
     val last_name: String
 )
 
+data class UpdateProfileRequest(
+    val firstName: String,
+    val lastName: String,
+    val password: String? = null,
+    val photoUrl: String? = null
+)
+
 data class AuthResponse(
     val client: ClientData?
 )

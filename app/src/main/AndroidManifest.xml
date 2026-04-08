@@ -31,6 +31,7 @@
         <activity android:name=".features.invoice.CreateInvoiceActivity"/>
         <activity android:name=".features.invoice.InvoiceDetailActivity"/>
         <activity android:name=".features.invoice.InvoicePreviewActivity"/>
+        <activity android:name=".features.profile.ProfileActivity"/>
     </application>
 
 </manifest>
