@@ -11,6 +11,7 @@ object SessionManager {
     private const val KEY_LAST_NAME = "last_name"
     private const val KEY_EMAIL = "email"
     private const val KEY_PHOTO_URL = "photo_url"
+    private const val KEY_IS_PREMIUM = "is_premium"
 
     fun saveToken(context: Context, token: String) {
         val prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
@@ -56,4 +57,14 @@ object SessionManager {
     fun getLastName(context: Context): String = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).getString(KEY_LAST_NAME, "") ?: ""
     fun getEmail(context: Context): String = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).getString(KEY_EMAIL, "") ?: ""
     fun getPhotoUrl(context: Context): String = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).getString(KEY_PHOTO_URL, "") ?: ""
+
+    fun saveIsPremium(context: Context, isPremium: Boolean) {
+        val prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        prefs.edit().putBoolean(KEY_IS_PREMIUM, isPremium).apply()
+    }
+
+    fun getIsPremium(context: Context): Boolean {
+        val prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        return prefs.getBoolean(KEY_IS_PREMIUM, false)
+    }
 }

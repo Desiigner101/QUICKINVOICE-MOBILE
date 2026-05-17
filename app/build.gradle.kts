@@ -27,6 +27,7 @@ android {
         buildConfigField("String", "CLERK_PUBLISHABLE_KEY", "\"${localProperties.getProperty("CLERK_PUBLISHABLE_KEY")}\"")
         buildConfigField("String", "CLERK_BASE_URL", "\"${localProperties.getProperty("CLERK_BASE_URL")}\"")
         buildConfigField("String", "BACKEND_BASE_URL", "\"${localProperties.getProperty("BACKEND_BASE_URL")}\"")
+        buildConfigField("String", "STRIPE_PUBLISHABLE_KEY", "\"${localProperties.getProperty("STRIPE_PUBLISHABLE_KEY")}\"")
     }
 
     buildTypes {
@@ -83,4 +84,7 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.3.2")
 
     implementation("com.google.code.gson:gson:2.10.1")
+
+    // Stripe
+    implementation("com.stripe:stripe-android:20.36.0")
 }

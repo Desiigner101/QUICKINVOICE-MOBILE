@@ -8,9 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.gson.Gson
 import com.sarsonasgino.quickinvoicemobile.core.model.Invoice
+import com.sarsonasgino.quickinvoicemobile.core.utils.SessionManager
 import com.sarsonasgino.quickinvoicemobile.databinding.ActivityDashboardBinding
 import com.sarsonasgino.quickinvoicemobile.features.invoice.CreateInvoiceActivity
 import com.sarsonasgino.quickinvoicemobile.features.invoice.InvoiceDetailActivity
+import com.sarsonasgino.quickinvoicemobile.features.subscription.SubscriptionActivity
 import com.sarsonasgino.quickinvoicemobile.main.MainActivity
 
 class DashboardActivity : AppCompatActivity(), DashboardContract.View {
@@ -28,7 +30,8 @@ class DashboardActivity : AppCompatActivity(), DashboardContract.View {
 
         presenter = DashboardPresenter(this, this)
 
-        binding.tvWelcome.text = "Welcome back 👋"
+        val firstName = SessionManager.getFirstName(this)
+        binding.tvWelcome.text = if (firstName.isNotEmpty()) "Welcome back, $firstName! 👋" else "Welcome back 👋"
 
         setupRecyclerView()
         setupNavbar()
@@ -103,6 +106,10 @@ class DashboardActivity : AppCompatActivity(), DashboardContract.View {
         startActivity(intent)
     }
 
+    override fun navigateToSubscription() {
+        startActivity(Intent(this, SubscriptionActivity::class.java))
+    }
+
     override fun logout() {
         val intent = Intent(this, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -152,6 +159,12 @@ class DashboardActivity : AppCompatActivity(), DashboardContract.View {
             binding.drawerMenu.visibility = View.GONE
             isMenuOpen = false
             presenter.onCreateInvoiceClicked()
+        }
+
+        binding.menuSubscription.setOnClickListener {
+            binding.drawerMenu.visibility = View.GONE
+            isMenuOpen = false
+            presenter.onSubscriptionClicked()
         }
     }
 

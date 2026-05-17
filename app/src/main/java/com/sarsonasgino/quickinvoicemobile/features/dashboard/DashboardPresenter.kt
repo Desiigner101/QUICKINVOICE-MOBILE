@@ -10,6 +10,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+
 class DashboardPresenter(
     private var view: DashboardContract.View?,
     private val context: Context
@@ -26,17 +27,12 @@ class DashboardPresenter(
 
         scope.launch {
             try {
-                val response = withContext(Dispatchers.IO) {
-                    RetrofitClient.api.getInvoices()
-                }
+                val response = withContext(Dispatchers.IO) { RetrofitClient.api.getInvoices() }
 
                 if (response.isSuccessful) {
                     val invoices = response.body() ?: emptyList()
-                    if (invoices.isEmpty()) {
-                        view?.showEmptyState()
-                    } else {
-                        view?.showInvoices(invoices)
-                    }
+                    if (invoices.isEmpty()) view?.showEmptyState()
+                    else view?.showInvoices(invoices)
                 } else {
                     view?.showError("Failed to load invoices")
                 }
@@ -63,6 +59,10 @@ class DashboardPresenter(
 
     override fun onHomeClicked() {
         view?.navigateToHome()
+    }
+
+    override fun onSubscriptionClicked() {
+        view?.navigateToSubscription()
     }
 
     override fun onDestroy() {

@@ -693,6 +693,74 @@
                                 android:textSize="12sp"
                                 android:backgroundTint="#E5E7EB"
                                 android:textColor="#374151"
+                                android:layout_marginEnd="16dp"
+                                android:paddingStart="12dp"
+                                android:paddingEnd="12dp"/>
+
+                            <!-- Divider -->
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="#E5E7EB"
+                                android:layout_marginEnd="16dp"/>
+
+                            <!-- PREMIUM templates -->
+                            <Button
+                                android:id="@+id/btnTemplate6"
+                                android:layout_width="wrap_content"
+                                android:layout_height="36dp"
+                                android:text="T6 ✨"
+                                android:textSize="12sp"
+                                android:backgroundTint="#E5E7EB"
+                                android:textColor="#374151"
+                                android:layout_marginEnd="8dp"
+                                android:paddingStart="12dp"
+                                android:paddingEnd="12dp"/>
+
+                            <Button
+                                android:id="@+id/btnTemplate7"
+                                android:layout_width="wrap_content"
+                                android:layout_height="36dp"
+                                android:text="T7 ✨"
+                                android:textSize="12sp"
+                                android:backgroundTint="#E5E7EB"
+                                android:textColor="#374151"
+                                android:layout_marginEnd="8dp"
+                                android:paddingStart="12dp"
+                                android:paddingEnd="12dp"/>
+
+                            <Button
+                                android:id="@+id/btnTemplate8"
+                                android:layout_width="wrap_content"
+                                android:layout_height="36dp"
+                                android:text="T8 ✨"
+                                android:textSize="12sp"
+                                android:backgroundTint="#E5E7EB"
+                                android:textColor="#374151"
+                                android:layout_marginEnd="8dp"
+                                android:paddingStart="12dp"
+                                android:paddingEnd="12dp"/>
+
+                            <Button
+                                android:id="@+id/btnTemplate9"
+                                android:layout_width="wrap_content"
+                                android:layout_height="36dp"
+                                android:text="T9 ✨"
+                                android:textSize="12sp"
+                                android:backgroundTint="#E5E7EB"
+                                android:textColor="#374151"
+                                android:layout_marginEnd="8dp"
+                                android:paddingStart="12dp"
+                                android:paddingEnd="12dp"/>
+
+                            <Button
+                                android:id="@+id/btnTemplate10"
+                                android:layout_width="wrap_content"
+                                android:layout_height="36dp"
+                                android:text="T10 ✨"
+                                android:textSize="12sp"
+                                android:backgroundTint="#E5E7EB"
+                                android:textColor="#374151"
                                 android:paddingStart="12dp"
                                 android:paddingEnd="12dp"/>
 

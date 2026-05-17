@@ -13,6 +13,7 @@ interface DashboardContract {
         fun navigateToCreateInvoice()
         fun navigateToInvoiceDetail(invoiceJson: String)
         fun navigateToHome()
+        fun navigateToSubscription()
         fun logout()
     }
 
@@ -22,6 +23,7 @@ interface DashboardContract {
         fun onInvoiceClicked(invoiceJson: String)
         fun onLogoutClicked()
         fun onHomeClicked()
+        fun onSubscriptionClicked()
         fun onDestroy()
     }
 }

@@ -1,5 +1,6 @@
 package com.sarsonasgino.quickinvoicemobile.features.invoice
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,11 +11,13 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.sarsonasgino.quickinvoicemobile.R
 import com.sarsonasgino.quickinvoicemobile.core.model.*
 import com.sarsonasgino.quickinvoicemobile.core.utils.SessionManager
 import com.sarsonasgino.quickinvoicemobile.databinding.ActivityCreateInvoiceBinding
+import com.sarsonasgino.quickinvoicemobile.features.subscription.SubscriptionActivity
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -26,6 +29,7 @@ class CreateInvoiceActivity : AppCompatActivity(), CreateInvoiceContract.View {
     private val itemViews = mutableListOf<View>()
     private var selectedTemplate = "template1"
     private val templateButtons = mutableListOf<Button>()
+    private val premiumTemplates = setOf("template6", "template7", "template8", "template9", "template10")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -154,29 +158,51 @@ class CreateInvoiceActivity : AppCompatActivity(), CreateInvoiceContract.View {
     private fun setupTemplateSelector() {
         templateButtons.addAll(listOf(
             binding.btnTemplate1, binding.btnTemplate2, binding.btnTemplate3,
-            binding.btnTemplate4, binding.btnTemplate5
+            binding.btnTemplate4, binding.btnTemplate5, binding.btnTemplate6,
+            binding.btnTemplate7, binding.btnTemplate8, binding.btnTemplate9,
+            binding.btnTemplate10
         ))
-        binding.btnTemplate1.setOnClickListener { selectTemplate("template1", binding.btnTemplate1) }
-        binding.btnTemplate2.setOnClickListener { selectTemplate("template2", binding.btnTemplate2) }
-        binding.btnTemplate3.setOnClickListener { selectTemplate("template3", binding.btnTemplate3) }
-        binding.btnTemplate4.setOnClickListener { selectTemplate("template4", binding.btnTemplate4) }
-        binding.btnTemplate5.setOnClickListener { selectTemplate("template5", binding.btnTemplate5) }
+        val ids = listOf(
+            "template1", "template2", "template3", "template4", "template5",
+            "template6", "template7", "template8", "template9", "template10"
+        )
+        templateButtons.forEachIndexed { i, btn ->
+            btn.setOnClickListener { handleSelectTemplate(ids[i], btn) }
+        }
+        highlightTemplate(binding.btnTemplate1, "#ea580c")
     }
 
-    private fun selectTemplate(template: String, button: Button) {
+    private fun handleSelectTemplate(template: String, button: Button) {
+        if (premiumTemplates.contains(template) && !SessionManager.getIsPremium(this)) {
+            AlertDialog.Builder(this)
+                .setTitle("Premium Template")
+                .setMessage("This template requires a Premium subscription. Upgrade to unlock all 10 templates.")
+                .setPositiveButton("Upgrade") { _, _ ->
+                    startActivity(Intent(this, SubscriptionActivity::class.java))
+                }
+                .setNegativeButton("Maybe Later", null)
+                .show()
+            return
+        }
         selectedTemplate = template
         val colors = mapOf(
-            "template1" to "#ea580c", "template2" to "#198754",
-            "template3" to "#8a3ff3", "template4" to "#00a9e0", "template5" to "#1f2937"
+            "template1" to "#ea580c", "template2" to "#198754", "template3" to "#8a3ff3",
+            "template4" to "#00a9e0", "template5" to "#1f2937",
+            "template6" to "#1e3a5f", "template7" to "#7f1d1d", "template8" to "#0f766e",
+            "template9" to "#111827", "template10" to "#4f46e5"
         )
+        highlightTemplate(button, colors[template] ?: "#0D6EFD")
+    }
+
+    private fun highlightTemplate(activeButton: Button, activeColor: String) {
         templateButtons.forEach { btn ->
             btn.backgroundTintList = android.content.res.ColorStateList.valueOf(
                 android.graphics.Color.parseColor("#E5E7EB"))
             btn.setTextColor(android.graphics.Color.parseColor("#374151"))
         }
-        button.backgroundTintList = android.content.res.ColorStateList.valueOf(
-            android.graphics.Color.parseColor(colors[template] ?: "#0D6EFD"))
-        button.setTextColor(android.graphics.Color.WHITE)
+        activeButton.backgroundTintList = android.content.res.ColorStateList.valueOf(
+            android.graphics.Color.parseColor(activeColor))
+        activeButton.setTextColor(android.graphics.Color.WHITE)
     }
 
     private fun submitInvoice() {
